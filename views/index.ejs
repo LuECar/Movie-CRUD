@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luuh's Movie Collection</title>
+</head>
+<body>
+    <h1>Let's Watch</h1>
+
+    <form action="/movies" method="POST">
+        <input type="text" name="title" id="userInput" placeholder="Lets find the movie" require>
+        <button id="searchMovie">Search</button>
+    </form>
+
+    <!-- After the '=' it indicates what i want to output. -->
+    <div class="luuhMovies" id="">
+        <% for( let i = 0; i < movie.length; i++ ) { %>
+            <h1><%= movie[i].title%></h1> 
+            <img src="<%= movie[i].img%>" alt="">
+        <% } %>
+       
+    </div>
+
+
+    </div>
+
+    <div id="originalTitle">
+
+    </div>
+
+    <div id="release">
+
+    </div>
+
+    <button>Remove</button>
+    <script src="main.js"></script>
+</body>
+</html>

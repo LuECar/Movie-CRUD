@@ -8,8 +8,13 @@ const app = express() //Allows us to create a session on top without creating a 
 
 const bodyParser = require('body-parser') //Helps you to be able to use or read the requsest.body
 
+const methodOverride = require('method-override') //We use this for the Delete
+/*when using req.body, you must fully parse the request body
+//       before you call methodOverride() in your middleware stack,
+//       otherwise req.body will not be populated. */
 
 const fetch = require('node-fetch') // lets us use fetch on the server side (using version @2)
+const { ObjectId } = require('mongodb')
 // npm install node-fetch@2 => how to install
 
 const PORT = process.env.PORT || 3000 // 3000 for local host but "process.env.PORT" for hosting sites
@@ -38,6 +43,16 @@ client.connect().then(client =>{
     app.use(bodyParser.urlencoded({extended: true})); // Express lets us use middleware with .use method 
     // bodyParser => they help tidy up the request object
     // urlencoded => tells the bodyparser to extract data from the <form> element and attach them to the body property of the request object
+
+
+    // Taken from https://expressjs.com/en/resources/middleware/method-override.html#custom-logic
+    app.use(methodOverride(function(req, res){
+        if(req.body && typeof req.body === 'object' && '_method' in req.body){
+            var method = req.body._method
+            delete req.body._method
+            return method
+        }
+    }))
 
 
     app.use(express.static('public'));
@@ -93,7 +108,16 @@ client.connect().then(client =>{
          movieCollection.insertOne(obj)
             .then(() => res.redirect('/'))
             .catch(error => console.error(error))   
+
+    app.delete('/movies', async (req, res)=> {
+        movieCollection.deleteOne({
+            _id: ObjectId(req.body.id)
+        }).then(result => {
+            console.log(`Deleted ObjectId(${req.body.id})`)
+            res.redirect('/') //We redirect it to the root
+        }).catch(error => console.log(`Error: ${error}`))
     })
+})
 
 
 

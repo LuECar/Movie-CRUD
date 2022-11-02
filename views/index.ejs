@@ -17,24 +17,18 @@
     <!-- After the '=' it indicates what i want to output. -->
     <div class="luuhMovies" id="">
         <% for( let i = 0; i < movie.length; i++ ) { %>
-            <h1><%= movie[i].title%></h1> 
-            <img src="<%= movie[i].img%>" alt="">
+            <h1><%= movie[i].title %></h1> 
+            <img src="<%= movie[i].img %>" alt="">
+
+
+            <form action="/movies" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="id" value="<%= movie[i]._id %>">
+                <button>Remove</button>
+            </form>
         <% } %>
-       
-    </div>
 
-
-    </div>
-
-    <div id="originalTitle">
-
-    </div>
-
-    <div id="release">
-
-    </div>
-
-    <button>Remove</button>
+    </div>   
     <script src="main.js"></script>
 </body>
 </html>
